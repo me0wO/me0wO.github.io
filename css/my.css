@@ -1,1 +1,10 @@
 /* Here is your custom css styles. */
+@font-face{
+    font-family: 'myFont';
+    src: url('../font/Noto_Sans_SC/NotoSansSC-Bold.otf');
+}
+
+body{
+    font-family: 'myFont';
+	font-size: 16px;
+}

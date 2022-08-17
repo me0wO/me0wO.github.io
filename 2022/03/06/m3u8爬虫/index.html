@@ -35,7 +35,8 @@
 		right: 140px !important;
 	}
 </style>
-<meta name="generator" content="Hexo 6.0.0"></head>
+<meta name="generator" content="Hexo 6.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 
@@ -423,6 +424,9 @@
         <hr class="clearfix">
 
         
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.css">
+        
 
         
 
@@ -431,7 +435,15 @@
                 <h1 id="爬虫m3u8视频下载"><a href="#爬虫m3u8视频下载" class="headerlink" title="爬虫m3u8视频下载"></a>爬虫m3u8视频下载</h1><h2 id="0x00-简介"><a href="#0x00-简介" class="headerlink" title="0x00 简介"></a>0x00 简介</h2><p>m3u8文件是苹果公司使用的HTTP Live Streaming（HLS）协议格式的基础。HLS是新一代流媒体传输协议，其基本实现原理为将一个大的媒体文件进行分片，将该分片文件资源路径记录与m3u8文件（即playlist）内，其中附带一些额外描述（比如该资源的多带宽信息等…）用于提供给客户端。客户端依据该m3u8文件可获取对应的媒体资源，进行播放。因此，客户端获取HLS流文件，主要是对m3u8文件进行解析操作。</p>
 <h2 id="0x01-初体验"><a href="#0x01-初体验" class="headerlink" title="0x01 初体验"></a>0x01 初体验</h2><p>m3u8文件实质是一个播放列表 （类似配置文件）</p>
 <p>浏览器根据它循序播放视频</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#EXTM3U</span><br><span class="line">#EXT-X-VERSION:3</span><br><span class="line">#EXT-X-TARGETDURATION:4</span><br><span class="line">#EXT-X-MEDIA-SEQUENCE:0</span><br><span class="line">#EXT-X-KEY:METHOD=AES-128,URI=&quot;key.key&quot;</span><br><span class="line">#EXTINF:3,</span><br><span class="line">9fLlwrnr.ts //第一个片段3秒</span><br><span class="line">#EXTINF:3.56,</span><br><span class="line">wrVU2bWa.ts //第二个片段3.65秒</span><br></pre></td></tr></table></figure>
+<pre class="language-none"><code class="language-none">#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-TARGETDURATION:4
+#EXT-X-MEDIA-SEQUENCE:0
+#EXT-X-KEY:METHOD&#x3D;AES-128,URI&#x3D;&quot;key.key&quot;
+#EXTINF:3,
+9fLlwrnr.ts &#x2F;&#x2F;第一个片段3秒
+#EXTINF:3.56,
+wrVU2bWa.ts &#x2F;&#x2F;第二个片段3.65秒</code></pre>
 
 <p>#EXT-X-KEY:METHOD&#x3D;AES-128,URI&#x3D;”key.key” 有这段证明加密了 </p>
 <p>且加密方式为METHOD&#x3D;AES-128</p>
@@ -442,19 +454,44 @@
 </li>
 <li><p>NetWork 中 找到index.m3u8文件（加密文件key.key）并下载 </p>
 </li>
-<li><p><img src="C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20220220163601255.png" alt="image-20220220163601255"></p>
+<li><p><img src="https://s2.loli.net/2022/05/17/DTQgrNcR8VLKIp1.png" alt="image-20220516165626341"></p>
 </li>
 <li><p>更具m3u8文件采集ts文件真实下载地址</p>
 <ul>
-<li>&#96;&#96;&#96;python<br>urls &#x3D; []<br>with open(‘index.m3u8’) as fp:<br>    a &#x3D; fp.readlines()<br>for ls in a:<br>    if ls.endswith(‘.ts\n’):<br>        urls.append(ls.strip())<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 下载到与m3u8同级目录下</span><br><span class="line"></span><br><span class="line">  - def get_ts(urls):</span><br><span class="line"></span><br><span class="line">## 0x03 解密整合</span><br><span class="line"></span><br><span class="line">### ffmpeg</span><br><span class="line"></span><br><span class="line">一款视频 音频处理工具</span><br><span class="line"></span><br><span class="line">- ffmpeg[官网](http://ffmpeg.org/download.html)下载</span><br><span class="line">- 环境变量设置</span><br><span class="line">  - 此电脑-&gt;高级-&gt;PATH 下添加一条 </span><br><span class="line">  - ffmpeg路径/bin</span><br><span class="line">  - 测试</span><br><span class="line">    - 命令行 ffplay 1.mp3 播放音频</span><br><span class="line"></span><br><span class="line">### 利用ffmpeg 处理视频</span><br><span class="line"></span><br><span class="line">1. 进入ts文件目录</span><br><span class="line"></span><br><span class="line">2. 命令行输入命令</span><br><span class="line"></span><br><span class="line">   - ```shell</span><br><span class="line">     ffmpeg -allowed_extensions ALL -i index.m3u8 -c copy out.mp4</span><br></pre></td></tr></table></figure></li>
+<li>&#96;&#96;&#96;python<br>urls &#x3D; []<br>with open(‘index.m3u8’) as fp:<br>    a &#x3D; fp.readlines()<br>for ls in a:<br>    if ls.endswith(‘.ts\n’):<br>        urls.append(ls.strip())<pre class="language-none"><code class="language-none">
+- 下载到与m3u8同级目录下
+
+  - def get_ts(urls):
+
+## 0x03 解密整合
+
+### ffmpeg
+
+一款视频 音频处理工具
+
+- ffmpeg[官网](http:&#x2F;&#x2F;ffmpeg.org&#x2F;download.html)下载
+- 环境变量设置
+  - 此电脑-&gt;高级-&gt;PATH 下添加一条 
+  - ffmpeg路径&#x2F;bin
+  - 测试
+    - 命令行 ffplay 1.mp3 播放音频
+
+### 利用ffmpeg 处理视频
+
+1. 进入ts文件目录
+
+2. 命令行输入命令
+
+   - &#96;&#96;&#96;shell
+     ffmpeg -allowed_extensions ALL -i index.m3u8 -c copy out.mp4</code></pre></li>
 </ul>
 </li>
 </ul>
 <ol start="3">
 <li><p>报错的话</p>
 <ul>
-<li><pre><code class="shell">ffmpeg -allowed_extensions ALL -protocol_whitelist &quot;file,http,crypto,tcp&quot; -i index.m3u8 -c copy out.mp4
-</code></pre>
+<li><pre class="line-numbers language-shell"><code class="language-shell">ffmpeg -allowed_extensions ALL -protocol_whitelist <span class="token string">"file,http,crypto,tcp"</span> -i index.m3u8 -c copy out.mp4
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 </li>
 </ul>
 </li>
@@ -700,18 +737,17 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/03/06/m3u8%E7%88%AC%E8%99%AB/">
+                <a href="/2022/03/16/cookie/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="m3u8爬虫">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="cookie">
                         
-                        <span class="card-title">m3u8爬虫</span>
+                        <span class="card-title">cookie</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -721,27 +757,26 @@
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-06
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-16
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/PYTHON/" class="post-category">
-                                    PYTHON
+                            <a href="/categories/JAVA/" class="post-category">
+                                    JAVA
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/video-m3u8/">
-                        <span class="chip bg-color">video-m3u8</span>
+                    <a href="/tags/cookie/">
+                        <span class="chip bg-color">cookie</span>
                     </a>
                     
                 </div>
@@ -921,60 +956,6 @@
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="/libs/aplayer/Meting.min.js"></script>
-
     
 
     <div class="container row center-align"
